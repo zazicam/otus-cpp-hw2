@@ -5,13 +5,15 @@
 #include <vector>
 #include <algorithm>
 
+using vec_of_strings = std::vector<std::string>;
+
 // ("",  '.') -> [""]
 // ("11", '.') -> ["11"]
 // ("..", '.') -> ["", "", ""]
 // ("11.", '.') -> ["11", ""]
 // (".11", '.') -> ["", "11"]
 // ("11.22", '.') -> ["11", "22"]
-std::vector<std::string> split(const std::string &str, char d)
+vec_of_strings split(const std::string &str, char d)
 {
     std::vector<std::string> r;
 
@@ -30,7 +32,22 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
-using vec_of_strings = std::vector<std::string>;
+void print(const std::vector<vec_of_strings> &ip_pool)
+{
+	for(auto ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+	{
+		for(auto ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+		{
+			if (ip_part != ip->cbegin())
+			{
+				std::cout << ".";
+
+			}
+			std::cout << *ip_part;
+		}
+		std::cout << std::endl;
+	}
+}
 
 bool less(vec_of_strings a, vec_of_strings b)
 {
@@ -42,6 +59,35 @@ bool less(vec_of_strings a, vec_of_strings b)
 		if(x<y) return false;
 	}
 	return false;
+}
+
+bool is_match(const vec_of_strings &ip, const std::string &mask_str)
+{
+	vec_of_strings mask = split(mask_str, '.');
+	for(int i=0;i<4;i++)
+	{
+		if(mask[i]!="*" && std::stoi(ip[i]) != std::stoi(mask[i]))
+			return false;
+	}
+	return true;
+}
+
+std::vector<vec_of_strings> filter(const std::vector<vec_of_strings> &ip_pool, const std::string &mask_str)
+{
+	std::vector<vec_of_strings> res;
+	vec_of_strings masks = split(mask_str, '|');
+	for(auto ip: ip_pool)
+	{
+		for(auto mask: masks)
+		{
+			if(is_match(ip, mask)) 
+			{
+				res.push_back(ip);
+				break;
+			}
+		}
+	}
+	return res;
 }
 
 int main(int argc, char const *argv[])
@@ -58,20 +104,7 @@ int main(int argc, char const *argv[])
 
         // TODO reverse lexicographically sort
 		std::sort(ip_pool.begin(), ip_pool.end(), less);
-
-        for(auto ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
-        {
-            for(auto ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
-            {
-                if (ip_part != ip->cbegin())
-                {
-                    std::cout << ".";
-
-                }
-                std::cout << *ip_part;
-            }
-            std::cout << std::endl;
-        }
+	//	print(ip_pool);
 
         // 222.173.235.246
         // 222.130.177.64
@@ -83,6 +116,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first byte and output
         // ip = filter(1)
+		auto ip = filter(ip_pool, "1.*.*.*");
+		print(ip);		
 
         // 1.231.69.33
         // 1.87.203.225
@@ -92,6 +127,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
+		ip = filter(ip_pool, "46.70.*.*");
+		print(ip);		
 
         // 46.70.225.39
         // 46.70.147.26
@@ -100,6 +137,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
+		ip = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
+		print(ip);
 
         // 186.204.34.46
         // 186.46.222.194
