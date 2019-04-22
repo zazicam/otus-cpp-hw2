@@ -34,15 +34,12 @@ vec_of_strings split(const std::string &str, char d)
 
 void print(const std::vector<vec_of_strings> &ip_pool)
 {
-	for(auto ip = ip_pool.cbegin(); ip != ip_pool.cend(); ++ip)
+	for(auto ip: ip_pool)
 	{
-		for(auto ip_part = ip->cbegin(); ip_part != ip->cend(); ++ip_part)
+		for(auto ip_part = ip.cbegin(); ip_part!=ip.cend(); ++ip_part) 
 		{
-			if (ip_part != ip->cbegin())
-			{
+			if (ip_part != ip.cbegin())
 				std::cout << ".";
-
-			}
 			std::cout << *ip_part;
 		}
 		std::cout << std::endl;
@@ -104,7 +101,7 @@ int main(int argc, char const *argv[])
 
         // TODO reverse lexicographically sort
 		std::sort(ip_pool.begin(), ip_pool.end(), less);
-	//	print(ip_pool);
+		print(ip_pool);
 
         // 222.173.235.246
         // 222.130.177.64
@@ -138,6 +135,23 @@ int main(int argc, char const *argv[])
         // TODO filter by any byte and output
         // ip = filter_any(46)
 		ip = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
+
+		// Somehow in examples below there isn't any ip with more than one bytes equal 46 in it
+		// If it's really necessary we can remove this staff
+		/*
+		ip.erase(
+			std::remove_if(ip.begin(), ip.end(), 
+				[](auto i) {
+				int count = 0;
+				for(auto part: i)
+					if(std::stoi(part) == 46)
+						count++;
+				return count>1;
+			}),
+			ip.end()
+		);
+		*/
+
 		print(ip);
 
         // 186.204.34.46
