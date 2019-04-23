@@ -46,7 +46,7 @@ void print(const std::vector<vec_of_strings> &ip_pool)
 	}
 }
 
-bool greater(vec_of_strings a, vec_of_strings b)
+bool greater(const vec_of_strings &a, const vec_of_strings &b)
 {
 	int size = std::min(a.size(), b.size());
 	for(int i=0;i<size;i++)
