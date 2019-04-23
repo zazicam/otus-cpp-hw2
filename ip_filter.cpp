@@ -62,7 +62,7 @@ bool greater(vec_of_strings a, vec_of_strings b)
 bool is_match(const vec_of_strings &ip, const std::string &mask_str)
 {
 	vec_of_strings mask = split(mask_str, '.');
-	for(int i=0;i<4;i++)
+	for(int i=0;i<mask.size();i++)
 	{
 		if(mask[i]!="*" && std::stoi(ip[i]) != std::stoi(mask[i]))
 			return false;
@@ -136,23 +136,6 @@ int main(int argc, char const *argv[])
         // TODO filter by any byte and output
         // ip = filter_any(46)
 		ip = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
-
-		// Somehow in examples below there isn't any ip with more than one bytes equal 46 in it
-		// If it's really necessary we can remove this staff
-		/*
-		ip.erase(
-			std::remove_if(ip.begin(), ip.end(), 
-				[](auto i) {
-				int count = 0;
-				for(auto part: i)
-					if(std::stoi(part) == 46)
-						count++;
-				return count>1;
-			}),
-			ip.end()
-		);
-		*/
-
 		print(ip);
 
         // 186.204.34.46
