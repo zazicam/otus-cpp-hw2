@@ -46,9 +46,10 @@ void print(const std::vector<vec_of_strings> &ip_pool)
 	}
 }
 
-bool less(vec_of_strings a, vec_of_strings b)
+bool greater(vec_of_strings a, vec_of_strings b)
 {
-	for(int i=0;i<4;i++)
+	int size = std::min(a.size(), b.size());
+	for(int i=0;i<size;i++)
 	{
 		int x = std::stoi(a[i]);
 		int y = std::stoi(b[i]);
@@ -100,7 +101,7 @@ int main(int argc, char const *argv[])
         }
 
         // TODO reverse lexicographically sort
-		std::sort(ip_pool.begin(), ip_pool.end(), less);
+		std::sort(ip_pool.begin(), ip_pool.end(), greater);
 		print(ip_pool);
 
         // 222.173.235.246
