@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 3.2)
 
 project(ip_filter VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
+include_directories(${PROJECT_BINARY_DIR})
 
 add_executable(ip_filter ip_filter.cpp)
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
-add_executable(test_filter test.cpp)
+add_executable(test_filter tests/test.cpp)
 
 set_target_properties(ip_filter test_filter PROPERTIES
     CXX_STANDARD 14
@@ -14,7 +15,6 @@ set_target_properties(ip_filter test_filter PROPERTIES
     COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra"
 )
 
-include_directories(${PROJECT_BINARY_DIR})
 
 target_link_libraries(test_filter
 	${GTEST_BOTH_LIBRARIES}
