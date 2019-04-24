@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
+
 #include <fstream>
+#include <algorithm>
 
 #include "../ip_filter.hpp"
 
@@ -80,8 +82,7 @@ std::vector<VOS> load_result(std::string filename)
 
 	for(std::string line; std::getline(fin, line);)
 	{
-		vec_of_strings v = split(line, '\t');
-		ip_pool.push_back(split(v.at(0), '.'));
+		ip_pool.push_back(split(line, '.'));
 	}
 
 	fin.close();
@@ -91,5 +92,35 @@ std::vector<VOS> load_result(std::string filename)
 TEST(filter_tests, test1)
 {
 	std::vector<VOS> ip_pool = load_input("ip_filter.tsv");
+	std::vector<VOS> sorted = load_result("sort.out");
+	std::sort(ip_pool.begin(), ip_pool.end(), greater);
+	ASSERT_EQ(ip_pool, sorted);
+
+	auto ip = filter(ip_pool, "1.*.*.*");
+	std::vector<VOS> filtered = load_result("filter1.out");
+	ASSERT_EQ(ip, filtered);
 }
 
+TEST(filter_tests, test2)
+{
+	std::vector<VOS> ip_pool = load_input("ip_filter.tsv");
+	std::vector<VOS> sorted = load_result("sort.out");
+	std::sort(ip_pool.begin(), ip_pool.end(), greater);
+	ASSERT_EQ(ip_pool, sorted);
+
+	auto ip = filter(ip_pool, "46.70.*.*");
+	std::vector<VOS> filtered = load_result("filter2.out");
+	ASSERT_EQ(ip, filtered);
+}
+
+TEST(filter_tests, test3)
+{
+	std::vector<VOS> ip_pool = load_input("ip_filter.tsv");
+	std::vector<VOS> sorted = load_result("sort.out");
+	std::sort(ip_pool.begin(), ip_pool.end(), greater);
+	ASSERT_EQ(ip_pool, sorted);
+
+	auto ip = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
+	std::vector<VOS> filtered = load_result("filter3.out");
+	ASSERT_EQ(ip, filtered);
+}
