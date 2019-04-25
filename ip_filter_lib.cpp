@@ -1,6 +1,6 @@
 #include "ip_filter_lib.hpp"
 
-vec_of_strings split(const std::string &str, char d)
+Ip split(const std::string &str, char d)
 {
     std::vector<std::string> r;
     std::string::size_type start = 0;
@@ -16,7 +16,7 @@ vec_of_strings split(const std::string &str, char d)
     return r;
 }
 
-bool greater(const vec_of_strings &a, const vec_of_strings &b)
+bool greater(const Ip &a, const Ip &b)
 {
 	int size = std::min(a.size(), b.size());
 	for(int i=0;i<size;i++)
@@ -29,9 +29,9 @@ bool greater(const vec_of_strings &a, const vec_of_strings &b)
 	return false;
 }
 
-bool is_match(const vec_of_strings &ip, const std::string &mask_str)
+bool is_match(const Ip &ip, const std::string &mask_str)
 {
-	vec_of_strings mask = split(mask_str, '.');
+	Ip mask = split(mask_str, '.');
 	for(int i=0;i<mask.size();i++)
 	{
 		if(mask[i]!="*" && std::stoi(ip[i]) != std::stoi(mask[i]))
@@ -40,10 +40,10 @@ bool is_match(const vec_of_strings &ip, const std::string &mask_str)
 	return true;
 }
 
-std::vector<vec_of_strings> filter(const std::vector<vec_of_strings> &ip_pool, const std::string &mask_str)
+std::vector<Ip> filter(const std::vector<Ip> &ip_pool, const std::string &mask_str)
 {
-	std::vector<vec_of_strings> res;
-	vec_of_strings masks = split(mask_str, '|');
+	std::vector<Ip> res;
+	Ip masks = split(mask_str, '|');
 	for(auto ip: ip_pool)
 	{
 		for(auto mask: masks)

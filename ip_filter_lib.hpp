@@ -4,14 +4,14 @@
 #include <vector>
 #include <string>
 
-using vec_of_strings = std::vector<std::string>;
+using Ip = std::vector<std::string>;
 
-vec_of_strings split(const std::string &str, char d);
+Ip split(const std::string &str, char d);
 
-bool greater(const vec_of_strings &a, const vec_of_strings &b);
+bool greater(const Ip &a, const Ip &b);
 
-bool is_match(const vec_of_strings &ip, const std::string &mask_str);
+bool is_match(const Ip &ip, const std::string &mask_str);
 
-std::vector<vec_of_strings> filter(const std::vector<vec_of_strings> &ip_pool, const std::string &mask_str);
+std::vector<Ip> filter(const std::vector<Ip> &ip_pool, const std::string &mask_str);
 
 #endif // IP_FILTER_HPP

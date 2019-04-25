@@ -7,7 +7,7 @@
 
 #include "ip_filter_lib.hpp"
 
-void print(const std::vector<vec_of_strings> &ip_pool)
+void print(const std::vector<Ip> &ip_pool)
 {
 	for(auto ip: ip_pool)
 	{
@@ -25,11 +25,11 @@ int main(int argc, char const *argv[])
 {
     try
     {
-        std::vector<vec_of_strings> ip_pool;
+        std::vector<Ip> ip_pool;
 
         for(std::string line; std::getline(std::cin, line);)
         {
-            vec_of_strings v = split(line, '\t');
+            Ip v = split(line, '\t');
             ip_pool.push_back(split(v.at(0), '.'));
         }
 
