@@ -6,7 +6,7 @@
 
 using Ip = std::vector<std::string>;
 
-Ip split(const std::string &str, char d);
+std::vector<std::string> split(const std::string &str, char d);
 
 bool greater(const Ip &a, const Ip &b);
 

@@ -29,9 +29,10 @@ int main(int argc, char const *argv[])
 
         for(std::string line; std::getline(std::cin, line);)
         {
-            Ip v = split(line, '\t');
-            ip_pool.push_back(split(v.at(0), '.'));
-        }
+			std::vector<std::string> v = split(line, '\t');
+			Ip ip = split(v.at(0), '.');
+            ip_pool.push_back(ip);
+		}
 
         // TODO reverse lexicographically sort
 		std::sort(ip_pool.begin(), ip_pool.end(), greater);
@@ -47,8 +48,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first byte and output
         // ip = filter(1)
-		auto ip = filter(ip_pool, "1.*.*.*");
-		print(ip);		
+		std::vector<Ip> res1 = filter(ip_pool, "1.*.*.*");
+		print(res1);		
 
         // 1.231.69.33
         // 1.87.203.225
@@ -58,8 +59,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by first and second bytes and output
         // ip = filter(46, 70)
-		ip = filter(ip_pool, "46.70.*.*");
-		print(ip);		
+		std::vector<Ip> res2 = filter(ip_pool, "46.70.*.*");
+		print(res2);		
 
         // 46.70.225.39
         // 46.70.147.26
@@ -68,8 +69,8 @@ int main(int argc, char const *argv[])
 
         // TODO filter by any byte and output
         // ip = filter_any(46)
-		ip = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
-		print(ip);
+		std::vector<Ip> res3 = filter(ip_pool, "46.*.*.*|*.46.*.*|*.*.46.*|*.*.*.46");
+		print(res3);
 
         // 186.204.34.46
         // 186.46.222.194

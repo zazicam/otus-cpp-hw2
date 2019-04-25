@@ -1,6 +1,6 @@
 #include "ip_filter_lib.hpp"
 
-Ip split(const std::string &str, char d)
+std::vector<std::string> split(const std::string &str, char d)
 {
     std::vector<std::string> r;
     std::string::size_type start = 0;
