@@ -3,8 +3,6 @@
 
 using vec_of_strings = std::vector<std::string>;
 
-int version() { return 1; }
-
 vec_of_strings split(const std::string &str, char d)
 {
     std::vector<std::string> r;
