@@ -7,17 +7,19 @@
 
 #include "ip_filter_lib.hpp"
 
+void print_ip(const Ip& ip)
+{
+	auto last = prev(end(ip));
+	for(auto iter = begin(ip); iter!=last; ++iter)
+		std::cout<< *iter<<'.';
+	std::cout<<*last<<std::endl;
+}
+
 void print(const std::vector<Ip> &ip_pool)
 {
-	for(auto ip: ip_pool)
+	for(const auto& ip: ip_pool)
 	{
-		for(auto ip_part = ip.cbegin(); ip_part!=ip.cend(); ++ip_part) 
-		{
-			if (ip_part != ip.cbegin())
-				std::cout << ".";
-			std::cout << *ip_part;
-		}
-		std::cout << std::endl;
+		print_ip(ip);
 	}
 }
 
@@ -30,7 +32,8 @@ int main(int argc, char const *argv[])
         for(std::string line; std::getline(std::cin, line);)
         {
 			std::vector<std::string> v = split(line, '\t');
-			Ip ip = split(v.at(0), '.');
+			std::string ip_str = v.at(0);
+			Ip ip = ip_from_str(ip_str);
             ip_pool.push_back(ip);
 		}
 

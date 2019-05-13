@@ -7,55 +7,54 @@
 
 TEST(split_tests, test1)
 {
-	ASSERT_TRUE( split("", '.')      == Ip ({""}) );
-	ASSERT_TRUE( split("11", '.')    == Ip ({"11"}) );
-	ASSERT_TRUE( split("..", '.')    == Ip ({"", "", ""}) );
-	ASSERT_TRUE( split("11.", '.')   == Ip ({"11", ""}) );
-	ASSERT_TRUE( split(".11", '.')   == Ip ({"", "11"}) );
-	ASSERT_TRUE( split("11.22", '.') == Ip ({"11", "22"}) );
+	ASSERT_TRUE( split("", '.')      == std::vector<std::string> ({""}));
+	ASSERT_TRUE( split("11", '.')    == std::vector<std::string> ({"11"}));
+	ASSERT_TRUE( split("..", '.')    == std::vector<std::string> ({"", "", ""}));
+	ASSERT_TRUE( split("11.", '.')   == std::vector<std::string> ({"11", ""}));
+	ASSERT_TRUE( split(".11", '.')   == std::vector<std::string> ({"", "11"}));
+	ASSERT_TRUE( split("11.22", '.') == std::vector<std::string> ({"11", "22"}));
 }
 
 TEST(greater_tests, test1)
 {
-	ASSERT_TRUE( greater(Ip({"0","0","0","2"}), Ip({"0","0","0","1"}) )); 
-	ASSERT_TRUE( greater(Ip({"0","0","2","0"}), Ip({"0","0","1","0"}) )); 
-	ASSERT_TRUE( greater(Ip({"0","2","0","1"}), Ip({"0","1","0","0"}) )); 
-	ASSERT_TRUE( greater(Ip({"2","0","0","1"}), Ip({"1","0","0","0"}) )); 
-	ASSERT_TRUE( greater(Ip({"1","2","3","4"}), Ip({"1","2","3","3"}) )); 
-	ASSERT_TRUE( greater(Ip({"1","1","1","1"}), Ip({"0","0","0","2"}) )); 
-	ASSERT_TRUE( greater(Ip({"4","3","2","1"}), Ip({"1","2","3","4"}) )); 
-	ASSERT_TRUE( greater(Ip({"1","1","1","123"}), Ip({"1","1","1","122"}) )); 
+	ASSERT_TRUE( greater(Ip({0,0,0,2}), Ip({0,0,0,1}) )); 
+	ASSERT_TRUE( greater(Ip({0,0,2,0}), Ip({0,0,1,0}) )); 
+	ASSERT_TRUE( greater(Ip({0,2,0,1}), Ip({0,1,0,0}) )); 
+	ASSERT_TRUE( greater(Ip({2,0,0,1}), Ip({1,0,0,0}) )); 
+	ASSERT_TRUE( greater(Ip({1,2,3,4}), Ip({1,2,3,3}) )); 
+	ASSERT_TRUE( greater(Ip({1,1,1,1}), Ip({0,0,0,2}) )); 
+	ASSERT_TRUE( greater(Ip({4,3,2,1}), Ip({1,2,3,4}) )); 
+	ASSERT_TRUE( greater(Ip({1,1,1,123}), Ip({1,1,1,122}) )); 
 }
 
 TEST(greater_tests, test2)
 {
-	ASSERT_FALSE( greater(Ip({"0","0","0","0"}), Ip({"0","0","0","0"}) )); 
-	ASSERT_FALSE( greater(Ip({"0","0","0","1"}), Ip({"0","0","1","0"}) )); 
-	ASSERT_FALSE( greater(Ip({"0","0","0","1"}), Ip({"0","1","0","0"}) )); 
-	ASSERT_FALSE( greater(Ip({"0","0","0","1"}), Ip({"1","0","0","0"}) )); 
-	ASSERT_FALSE( greater(Ip({"1","2","3","4"}), Ip({"1","2","3","4"}) )); 
-	ASSERT_FALSE( greater(Ip({"1","1","1","1"}), Ip({"2","2","2","2"}) )); 
-	ASSERT_FALSE( greater(Ip({"1","1","1","01"}), Ip({"1","1","1","1"}) )); 
-	ASSERT_FALSE( greater(Ip({"1","1","1","012"}), Ip({"1","1","1","12"}) )); 
+	ASSERT_FALSE( greater(Ip({0,0,0,0}), Ip({0,0,0,0}) )); 
+	ASSERT_FALSE( greater(Ip({0,0,0,1}), Ip({0,0,1,0}) )); 
+	ASSERT_FALSE( greater(Ip({0,0,0,1}), Ip({0,1,0,0}) )); 
+	ASSERT_FALSE( greater(Ip({0,0,0,1}), Ip({1,0,0,0}) )); 
+	ASSERT_FALSE( greater(Ip({1,2,3,4}), Ip({1,2,3,4}) )); 
+	ASSERT_FALSE( greater(Ip({1,1,1,1}), Ip({2,2,2,2}) )); 
+	ASSERT_FALSE( greater(Ip({1,1,1,1}), Ip({1,1,1,1}) )); 
 }
 
 TEST(is_match_tests, test1)
 {
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "*.*.*.*") );
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "1.*.*.*") );
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "1.2.*.*") );
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "1.2.3.*") );
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "1.2.3.4") );
-	ASSERT_TRUE( is_match(Ip({"1", "2", "3", "4"}), "1.02.003.04") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "*.*.*.*") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.*.*.*") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.*.*") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.3.*") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.3.4") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.02.003.04") );
 }
 
 TEST(is_match_tests, test2)
 {
-	ASSERT_FALSE( is_match(Ip({"1", "2", "3", "4"}), "*.*.*.0") );
-	ASSERT_FALSE( is_match(Ip({"1", "2", "3", "4"}), "0.*.*.*") );
-	ASSERT_FALSE( is_match(Ip({"1", "2", "3", "4"}), "1.0.*.*") );
-	ASSERT_FALSE( is_match(Ip({"1", "2", "3", "4"}), "1.2.0.*") );
-	ASSERT_FALSE( is_match(Ip({"1", "2", "3", "4"}), "1.2.3.0") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "*.*.*.0") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "0.*.*.*") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.0.*.*") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.2.0.*") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.2.3.0") );
 }
 
 std::vector<Ip> load_input(std::string filename)
@@ -65,8 +64,10 @@ std::vector<Ip> load_input(std::string filename)
 
 	for(std::string line; std::getline(fin, line);)
 	{
-		Ip v = split(line, '\t');
-		ip_pool.push_back(split(v.at(0), '.'));
+		std::vector<std::string> v = split(line, '\t');
+		std::string ip_str = v.at(0);
+		Ip ip = ip_from_str(ip_str);
+		ip_pool.push_back(ip);
 	}
 
 	fin.close();
@@ -80,7 +81,8 @@ std::vector<Ip> load_result(std::string filename)
 
 	for(std::string line; std::getline(fin, line);)
 	{
-		ip_pool.push_back(split(line, '.'));
+		Ip ip = ip_from_str(line);
+		ip_pool.push_back(ip);
 	}
 
 	fin.close();
@@ -122,3 +124,4 @@ TEST(filter_tests, test3)
 	std::vector<Ip> filtered = load_result("filter3.out");
 	ASSERT_EQ(ip, filtered);
 }
+

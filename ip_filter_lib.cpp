@@ -16,13 +16,22 @@ std::vector<std::string> split(const std::string &str, char d)
     return r;
 }
 
+Ip ip_from_str(const std::string &ip_str)
+{
+	std::vector<std::string> ip_parts = split(ip_str, '.');
+	Ip ip;
+	for(const auto& part : ip_parts)
+		ip.push_back( std::stoi(part) );
+	return ip;
+}
+
 bool greater(const Ip &a, const Ip &b)
 {
 	int size = std::min(a.size(), b.size());
 	for(int i=0;i<size;i++)
 	{
-		int x = std::stoi(a[i]);
-		int y = std::stoi(b[i]);
+		int x = a[i];
+		int y = b[i];
 		if(x>y) return true;
 		if(x<y) return false;
 	}
@@ -31,10 +40,10 @@ bool greater(const Ip &a, const Ip &b)
 
 bool is_match(const Ip &ip, const std::string &mask_str)
 {
-	Ip mask = split(mask_str, '.');
+	std::vector<std::string> mask = split(mask_str, '.');
 	for(int i=0;i<mask.size();i++)
 	{
-		if(mask[i]!="*" && std::stoi(ip[i]) != std::stoi(mask[i]))
+		if(mask[i]!="*" && ip[i] != std::stoi(mask[i]))
 			return false;
 	}
 	return true;
@@ -43,7 +52,7 @@ bool is_match(const Ip &ip, const std::string &mask_str)
 std::vector<Ip> filter(const std::vector<Ip> &ip_pool, const std::string &mask_str)
 {
 	std::vector<Ip> res;
-	Ip masks = split(mask_str, '|');
+	std::vector<std::string> masks = split(mask_str, '|');
 	for(auto ip: ip_pool)
 	{
 		for(auto mask: masks)
