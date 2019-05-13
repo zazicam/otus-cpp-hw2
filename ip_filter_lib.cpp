@@ -30,10 +30,8 @@ bool greater(const Ip &a, const Ip &b)
 	int size = std::min(a.size(), b.size());
 	for(int i=0;i<size;++i)
 	{
-		int x = a[i];
-		int y = b[i];
-		if(x>y) return true;
-		if(x<y) return false;
+		if(a[i]>b[i]) return true;
+		if(a[i]<b[i]) return false;
 	}
 	return false;
 }
@@ -50,8 +48,14 @@ bool is_match(const Ip &ip, const std::vector<int> &mask)
 
 std::vector<Ip> filter(const std::vector<Ip> &ip_pool, const std::string &mask_str)
 {
-	std::vector<Ip> res;
+	std::vector<Ip> result;
+
+	// mask string can contain many masks:  "1.2.3.*|1.2.*.4"
+	// so first we are to split it to list of simple masks 
 	std::vector<std::string> masks_str = split(mask_str, '|');
+
+	// convert each mask to integer representation ("*.1.2.*" --> {-1, 1, 2, -1})
+	// just to speed up a little bit (to exclude extra 'stoi' conversions)
 	std::vector<std::vector<int>> masks;
 	for(const std::string& m_str : masks_str)
 	{
@@ -67,16 +71,17 @@ std::vector<Ip> filter(const std::vector<Ip> &ip_pool, const std::string &mask_s
 		masks.push_back(mask);
 	}
 
+	// finaly search matching ip adrresses and append to res
 	for(const auto& ip: ip_pool)
 	{
 		for(const auto& mask: masks)
 		{
 			if(is_match(ip, mask)) 
 			{
-				res.push_back(ip);
+				result.push_back(ip);
 				break;
 			}
 		}
 	}
-	return res;
+	return result;
 }
