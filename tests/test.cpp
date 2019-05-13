@@ -40,21 +40,20 @@ TEST(greater_tests, test2)
 
 TEST(is_match_tests, test1)
 {
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "*.*.*.*") );
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.*.*.*") );
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.*.*") );
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.3.*") );
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.2.3.4") );
-	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), "1.02.003.04") );
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({-1, -1, -1, -1}) ));
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, -1, -1, -1}) ));
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 2, -1, -1}) ));
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 2, 3, -1}) ));
+	ASSERT_TRUE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 2, 3, 4}) ));
 }
 
 TEST(is_match_tests, test2)
 {
-	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "*.*.*.0") );
-	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "0.*.*.*") );
-	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.0.*.*") );
-	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.2.0.*") );
-	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), "1.2.3.0") );
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({-1, -1, -1, 0}) ));
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({0, -1, -1, -1}) ));
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 0, -1, -1}) ));
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 2, 0, -1}) ));
+	ASSERT_FALSE( is_match(Ip({1, 2, 3, 4}), std::vector<int> ({1, 2, 3, 0}) ));
 }
 
 std::vector<Ip> load_input(std::string filename)
